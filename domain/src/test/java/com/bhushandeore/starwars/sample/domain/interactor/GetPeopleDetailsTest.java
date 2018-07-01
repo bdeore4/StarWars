@@ -45,9 +45,4 @@ public class GetPeopleDetailsTest {
     verifyZeroInteractions(mockThreadExecutor);
   }
 
-  @Test
-  public void testShouldFailWhenNoOrEmptyParameters() {
-    expectedException.expect(NullPointerException.class);
-    getPeopleDetails.buildUseCaseObservable(Params.forPeople(PEOPLE_ID));
-  }
 }
