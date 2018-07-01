@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Fragment that shows details of a certain people.
@@ -107,13 +108,22 @@ public class PeopleDetailsFragment extends BaseFragment implements PeopleDetails
 
     @Override
     public void renderPeople(PeopleModel peopleModel) {
-        if (peopleModel != null) {
-            this.nameValue.setText(peopleModel.name);
-            this.createdDateValue.setText(peopleModel.created);
+        try {
+            if (peopleModel != null) {
+                this.nameValue.setText(peopleModel.name);
+                this.createdDateValue.setText(peopleModel.created);
 
-            double meter = (Integer.parseInt(peopleModel.height)) * 0.0254;
-            this.heightValue.setText(String.valueOf(meter));
-            this.massValue.setText(peopleModel.mass);
+                if (peopleModel.height.equalsIgnoreCase("unknown")) {
+                    this.heightValue.setText(peopleModel.height);
+                } else {
+                    double meter = (Integer.parseInt(peopleModel.height)) * 0.0254;
+                    this.heightValue.setText(String.valueOf(meter));
+
+                }
+                this.massValue.setText(peopleModel.mass);
+            }
+        } catch (Exception e) {
+            Timber.d("Exception when when rendering data: " + e);
         }
     }
 
